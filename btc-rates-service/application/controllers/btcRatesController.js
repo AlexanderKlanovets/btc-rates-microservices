@@ -25,9 +25,9 @@ class BtcRatesController {
 
   async getBtcUahExchangeRate(req, res) {
     try {
-      const { authentication } = req.headers;
+      const { authorization } = req.headers;
 
-      await this.accessCheckService.verifyAccess(authentication);
+      await this.accessCheckService.verifyAccess(authorization);
 
       const btcUahExchangeRate = await this.btcService.getBtcUahExchangeRate();
 

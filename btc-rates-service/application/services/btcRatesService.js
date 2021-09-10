@@ -1,12 +1,18 @@
 'use strict';
 
+const { RatesRetrievalError } = require('./errors');
+
 class BtcRatesService {
   constructor(btcRatesProvider) {
     this.btcRatesProvider = btcRatesProvider;
   }
 
   getBtcUahExchangeRate() {
-    return this.btcRatesProvider.getBtcUahExchangeRate();
+    try {
+      return this.btcRatesProvider.getBtcUahExchangeRate();
+    } catch (err) {
+      throw new RatesRetrievalError();
+    }
   }
 }
 

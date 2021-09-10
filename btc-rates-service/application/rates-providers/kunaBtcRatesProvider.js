@@ -2,7 +2,7 @@
 
 'use strict';
 
-const { makeGetRequest } = require('../lib/utils');
+const { makeHttpsGetRequest } = require('../../lib/utils');
 
 class KunaBtcRatesProvider {
   async getBtcUahExchangeRate() {
@@ -16,7 +16,7 @@ class KunaBtcRatesProvider {
       },
     };
 
-    const data = await makeGetRequest(API_URL, options);
+    const data = await makeHttpsGetRequest(API_URL, options);
 
     return data[0][LATEST_PRICE_INDEX];
   }

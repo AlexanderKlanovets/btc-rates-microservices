@@ -6,13 +6,19 @@ const {
   urlencoded,
 } = require('express');
 
-const KunaBtcRatesProvider = require('./application/kunaBtcRatesProvider');
-const BtcRatesService = require('./application/btcRatesService');
-const BtcRatesController = require('./application/btcRatesController');
+const appConfig = require('./lib/config');
+
+const KunaBtcRatesProvider = require('./application/rates-providers/kunaBtcRatesProvider');
+const AccessCheckService = require('./application/services/accessCheckService');
+const BtcRatesService = require('./application/services/btcRatesService');
+const BtcRatesController = require('./application/controllers/btcRatesController');
 const getBtcRatesRouter = require('./application/btcRatesRoutes');
 
 const createApp = () => {
   const btcRatesProvider = new KunaBtcRatesProvider();
+  const accessCheckService = new AccessCheckService(
+    appConfig.AUTH_SERVICE_URL,
+  );
   const btcRatesService = new BtcRatesService(btcRatesProvider);
   const btcRatesController = new BtcRatesController(btcRatesService);
   const btcRatesRouter = getBtcRatesRouter(btcRatesController);

@@ -1,15 +1,24 @@
 'use strict';
 
+const http = require('http');
 const https = require('https');
 
-const makeGetRequest = (url, options) => new Promise(
+class HttpError extends Error {
+  constructor(message, status) {
+    super(message);
+
+    this.status = status;
+  }
+}
+
+const makeGetRequest = (httpModule, url, options) => new Promise(
   (resolve, reject) => {
-    const req = https.get(url, options, (res) => {
+    const req = httpModule.get(url, options, (res) => {
       const { statusCode } = res;
 
       if (statusCode !== 200) {
         res.resume();
-        reject(new Error(`Request Failed. Status Code: ${statusCode}`));
+        reject(new HttpError(`Request Failed.`, statusCode));
       }
 
       let rawData = '';
@@ -32,6 +41,15 @@ const makeGetRequest = (url, options) => new Promise(
   },
 );
 
+const makeHttpGetRequest = (url, options) => makeGetRequest(
+  http, url, options,
+);
+
+const makeHttpsGetRequest = (url, options) => makeGetRequest(
+  https, url, options,
+);
+
 module.exports = {
-  makeGetRequest,
+  makeHttpGetRequest,
+  makeHttpsGetRequest,
 };

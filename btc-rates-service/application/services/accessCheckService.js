@@ -1,7 +1,7 @@
 'use strict';
 
 const { AccessDeniedError } = require('./errors');
-const { makeGetRequest } = require('../../lib/utils');
+const { makeHttpGetRequest } = require('../../lib/utils');
 
 class AccessCheckService {
   constructor(authServiceUrl) {
@@ -10,10 +10,10 @@ class AccessCheckService {
 
   async verifyAccess(authHeader) {
     try {
-      await makeGetRequest(
-        this.authServiceUrl,
+      await makeHttpGetRequest(
+        `${this.authServiceUrl}/user/verifyToken`,
         {
-          headers: { authentication: authHeader },
+          headers: { authorization: authHeader },
         },
       );
     } catch (err) {

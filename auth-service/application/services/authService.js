@@ -17,7 +17,7 @@ const {
   TokenVerificationError,
 } = require('./errors');
 
-const verifyJwtTokenFromAuthHeader = require('../../lib/utils');
+const { verifyJwtTokenFromAuthHeader } = require('../../lib/utils');
 
 class AuthService {
   constructor(userModel, refreshTokenModel, options) {
@@ -43,7 +43,7 @@ class AuthService {
   }
 
   async issueTokenPair(email) {
-    const TOKEN_LIFETIME_IN_SECONDS = 15 * 60;
+    const TOKEN_EXPIRATION_TIME = Math.floor(Date.now() / 1000) + (60 * 15);
 
     const newRefreshToken = uuidv4();
 
@@ -55,7 +55,7 @@ class AuthService {
     return {
       token: jwt.sign(
         {
-          exp: TOKEN_LIFETIME_IN_SECONDS,
+          exp: TOKEN_EXPIRATION_TIME,
           email,
         },
         this.jwtSecret,

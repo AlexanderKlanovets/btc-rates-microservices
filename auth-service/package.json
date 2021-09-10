@@ -1,0 +1,27 @@
+{
+  "name": "auth-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test:lint": "npx eslint . --ext .js --rule strict:0",
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
+  },
+  "author": "Alexander Klanovets <alex.klanovets@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.28.2",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "nodemon": "^2.0.12"
+  }
+}

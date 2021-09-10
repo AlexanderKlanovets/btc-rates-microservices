@@ -1,8 +1,8 @@
 'use strict';
 
 class AccessDeniedError extends Error {
-  constructor(message) {
-    super(message);
+  constructor() {
+    super('Access denied.');
 
     this.name = 'AccessDeniedError';
   }

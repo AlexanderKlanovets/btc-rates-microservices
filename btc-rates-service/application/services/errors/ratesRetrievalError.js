@@ -1,8 +1,8 @@
 'use strict';
 
 class RatesRetrievalError extends Error {
-  constructor(message) {
-    super(message);
+  constructor() {
+    super('Unable to get the BTC-UAH exchange rate.');
 
     this.name = 'RatesRetrievalError';
   }

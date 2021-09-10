@@ -23,7 +23,12 @@ const createApp = () => {
     refreshTokenModel,
     { jwtSecret: appConfig.JWT_SECRET },
   );
-  const authController = new AuthController(authService);
+
+  const logger = {
+    error: console.error,
+  };
+
+  const authController = new AuthController(authService, logger);
   const authRouter = getAuthRouter(authController);
 
   const app = express();

@@ -5,14 +5,17 @@
 const serviceErrorsToHttpStatusMap = require('./serviceErrorsToHttpStatusMap');
 
 class AuthController {
-  constructor(authService) {
+  constructor(authService, logger) {
     this.authService = authService;
+    this.logger = logger;
   }
 
   handleServiceErrorAndSendResponse(err, res) {
     const status = serviceErrorsToHttpStatusMap[err.name];
 
     if (!status) {
+      this.logger.error(err.message);
+
       res.status(500).json({ message: 'Unknown error!' });
 
       return;

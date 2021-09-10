@@ -18,7 +18,7 @@ const makeGetRequest = (httpModule, url, options) => new Promise(
 
       if (statusCode !== 200) {
         res.resume();
-        reject(new HttpError(`Request Failed.`, statusCode));
+        reject(new HttpError('Request Failed.', statusCode));
       }
 
       let rawData = '';

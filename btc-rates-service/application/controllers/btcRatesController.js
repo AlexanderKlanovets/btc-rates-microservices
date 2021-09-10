@@ -33,7 +33,7 @@ class BtcRatesController {
 
       res.status(200).json({ btcUahExchangeRate });
     } catch (err) {
-      handleServiceErrorAndSendResponse(err, res);
+      this.handleServiceErrorAndSendResponse(err, res);
     }
   }
 }

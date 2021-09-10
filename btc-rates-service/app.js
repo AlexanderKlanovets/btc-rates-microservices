@@ -20,7 +20,16 @@ const createApp = () => {
     appConfig.AUTH_SERVICE_URL,
   );
   const btcRatesService = new BtcRatesService(btcRatesProvider);
-  const btcRatesController = new BtcRatesController(btcRatesService);
+
+  const logger = {
+    error: console.error,
+  };
+
+  const btcRatesController = new BtcRatesController(
+    accessCheckService,
+    btcRatesService,
+    logger,
+  );
   const btcRatesRouter = getBtcRatesRouter(btcRatesController);
 
   const app = express();

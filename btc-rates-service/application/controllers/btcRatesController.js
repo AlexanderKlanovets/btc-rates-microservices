@@ -1,29 +1,14 @@
 'use strict';
 
-const serviceErrorsToHttpStatusMap = require('./serviceErrorsToHttpStatusMap');
+const serviceToHttpErrorsMap = require('./serviceToHttpErrorsMap');
 
 class BtcRatesController {
-  constructor(accessCheckService, btcService, logger) {
+  constructor(accessCheckService, btcService) {
     this.accessCheckService = accessCheckService;
     this.btcService = btcService;
-    this.logger = logger;
   }
 
-  handleServiceErrorAndSendResponse(err, res) {
-    const status = serviceErrorsToHttpStatusMap[err.name];
-
-    if (!status) {
-      this.logger.error(err.message);
-
-      res.status(500).json({ message: 'Unknown error!' });
-
-      return;
-    }
-
-    res.status(status).json({ message: err.message });
-  }
-
-  async getBtcUahExchangeRate(req, res) {
+  async getBtcUahExchangeRate(req, res, next) {
     try {
       const { authorization } = req.headers;
 
@@ -33,7 +18,7 @@ class BtcRatesController {
 
       res.status(200).json({ btcUahExchangeRate });
     } catch (err) {
-      this.handleServiceErrorAndSendResponse(err, res);
+      next(new serviceToHttpErrorsMap[err.name](err.message));
     }
   }
 }

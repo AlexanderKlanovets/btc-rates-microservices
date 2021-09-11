@@ -8,6 +8,12 @@ class BtcRatesController {
     this.btcService = btcService;
   }
 
+  passErrorToErrorHandler = (err, errorHandler) => {
+    const HttpError = serviceToHttpErrorsMap[err.name];
+
+    errorHandler(HttpError ? new HttpError(err.message) : err);
+  }
+
   async getBtcUahExchangeRate(req, res, next) {
     try {
       const { authorization } = req.headers;
@@ -18,9 +24,7 @@ class BtcRatesController {
 
       res.status(200).json({ btcUahExchangeRate });
     } catch (err) {
-      const HttpError = serviceToHttpErrorsMap[err.name];
-
-      next(HttpError ? new HttpError(err.message) : err);
+      passErrorToErrorHandler(err, next);
     }
   }
 }

@@ -7,27 +7,27 @@ const getAuthRouter = (authController) => {
 
   router.post(
     '/user/create',
-    (req, res) => authController.register(req, res),
+    (req, res, next) => authController.register(req, res, next),
   );
 
   router.post(
     '/user/login',
-    (req, res) => authController.login(req, res),
+    (req, res, next) => authController.login(req, res, next),
   );
 
   router.post(
     '/user/refresh',
-    (req, res) => authController.refresh(req, res),
+    (req, res, next) => authController.refresh(req, res, next),
   );
 
   router.post(
     '/user/logout',
-    (req, res) => authController.logout(req, res),
+    (req, res, next) => authController.logout(req, res, next),
   );
 
   router.get(
     '/user/verifyToken',
-    (req, res) => authController.verifyToken(req, res),
+    (req, res, next) => authController.verifyToken(req, res, next),
   );
 
   return router;

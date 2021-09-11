@@ -16,6 +16,11 @@ const getAuthRouter = require('./application/authRoutes');
 
 const { consoleLogger } = require('./lib/loggers');
 
+const {
+  logHttpError,
+  sendResponseOnHttpError,
+} = require('./lib/http/helpers');
+
 const createApp = (debug = false) => {
   const userModel = new User(appConfig.DATA_PATH);
   const refreshTokenModel = new RefreshToken(appConfig.DATA_PATH);

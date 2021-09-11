@@ -2,9 +2,10 @@
 
 const {
   UnauthorizedError,
+  ServiceUnavailableError,
 } = require('../../../common/http/errors');
 
 module.exports = {
   AccessDeniedError: UnauthorizedError,
-  RatesRetrievalError: 503,
+  RatesRetrievalError: ServiceUnavailableError,
 };

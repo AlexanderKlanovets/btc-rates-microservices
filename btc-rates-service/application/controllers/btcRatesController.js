@@ -1,3 +1,5 @@
+/* eslint class-methods-use-this: 0 */
+
 'use strict';
 
 const serviceToHttpErrorsMap = require('./serviceToHttpErrorsMap');
@@ -8,7 +10,7 @@ class BtcRatesController {
     this.btcService = btcService;
   }
 
-  passErrorToErrorHandler = (err, errorHandler) => {
+  passErrorToErrorHandler(err, errorHandler) {
     const HttpError = serviceToHttpErrorsMap[err.name];
 
     errorHandler(HttpError ? new HttpError(err.message) : err);
@@ -24,7 +26,7 @@ class BtcRatesController {
 
       res.status(200).json({ btcUahExchangeRate });
     } catch (err) {
-      passErrorToErrorHandler(err, next);
+      this.passErrorToErrorHandler(err, next);
     }
   }
 }

@@ -1,9 +1,9 @@
 'use strict';
 
 const createApp = require('./app');
-const { PORT } = require('./lib/config');
+const { PORT, DEBUG_MODE } = require('./lib/config');
 
-createApp().listen(
+createApp(DEBUG_MODE).listen(
   PORT,
   /* eslint-disable-next-line */
   () => console.log(`The BTC-rates service has started on port ${PORT}.`),

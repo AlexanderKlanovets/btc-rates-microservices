@@ -7,7 +7,7 @@ const getBtcRouter = (btcController) => {
 
   router.get(
     '/btcRate',
-    (req, res) => btcController.getBtcUahExchangeRate(req, res),
+    (req, res, next) => btcController.getBtcUahExchangeRate(req, res, next),
   );
 
   return router;

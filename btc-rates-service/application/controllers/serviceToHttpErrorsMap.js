@@ -2,7 +2,7 @@
 
 const {
   UnauthorizedError,
-} = require('../../lib/http/errors');
+} = require('../../../common/http/errors');
 
 module.exports = {
   AccessDeniedError: UnauthorizedError,

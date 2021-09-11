@@ -14,12 +14,12 @@ const BtcRatesService = require('./application/services/btcRatesService');
 const BtcRatesController = require('./application/controllers/btcRatesController');
 const getBtcRatesRouter = require('./application/btcRatesRoutes');
 
-const { consoleLogger } = require('./lib/loggers');
+const { consoleLogger } = require('../common/loggers');
 
 const {
   logHttpError,
   sendResponseOnHttpError,
-} = require('./lib/http/helpers');
+} = require('../common/http/helpers');
 
 const createApp = (debug = false) => {
   const btcRatesProvider = new KunaBtcRatesProvider();

@@ -4,7 +4,7 @@ const {
   UnauthorizedError,
   BadRequestError,
   NotFoundError,
-} = require('../../lib/http/errors');
+} = require('../../../common/http/errors');
 
 module.exports = {
   InvalidCredentialsError: UnauthorizedError,

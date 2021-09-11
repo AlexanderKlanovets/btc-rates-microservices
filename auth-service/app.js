@@ -14,12 +14,12 @@ const AuthService = require('./application/services/authService');
 const AuthController = require('./application/controllers/authController');
 const getAuthRouter = require('./application/authRoutes');
 
-const { consoleLogger } = require('./lib/loggers');
+const { consoleLogger } = require('../common/loggers');
 
 const {
   logHttpError,
   sendResponseOnHttpError,
-} = require('./lib/http/helpers');
+} = require('../common/http/helpers');
 
 const createApp = (debug = false) => {
   const userModel = new User(appConfig.DATA_PATH);

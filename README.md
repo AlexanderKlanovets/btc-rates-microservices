@@ -13,6 +13,7 @@ The required version of Node.js is 14+.
 1. Clone the repo:
 ```bash
 $ git clone https://github.com/AlexanderKlanovets/btc-rates-microservices
+$ cd btc-rates-microservices
 ```
 
 2. Install dependencies for both services:

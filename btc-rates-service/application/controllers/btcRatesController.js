@@ -18,9 +18,9 @@ class BtcRatesController {
 
       res.status(200).json({ btcUahExchangeRate });
     } catch (err) {
-      const httpError = serviceToHttpErrorsMap[err.name];
+      const HttpError = serviceToHttpErrorsMap[err.name];
 
-      next(httpError ? new httpError(err.message) : err);
+      next(HttpError ? new HttpError(err.message) : err);
     }
   }
 }

@@ -21,7 +21,7 @@ const {
   sendResponseOnHttpError,
 } = require('./lib/http/helpers');
 
-const createApp = (debug=false) => {
+const createApp = (debug = false) => {
   const btcRatesProvider = new KunaBtcRatesProvider();
   const accessCheckService = new AccessCheckService(
     appConfig.AUTH_SERVICE_URL,
@@ -48,6 +48,7 @@ const createApp = (debug=false) => {
 
   app.use(btcRatesRouter);
 
+  /* eslint-disable-next-line */
   app.use((err, req, res, next) => {
     logHttpError(err, logger);
     sendResponseOnHttpError(err, res);

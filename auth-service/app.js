@@ -14,7 +14,9 @@ const AuthService = require('./application/services/authService');
 const AuthController = require('./application/controllers/authController');
 const getAuthRouter = require('./application/authRoutes');
 
-const createApp = () => {
+const { consoleLogger } = require('./lib/loggers');
+
+const createApp = (debug = false) => {
   const userModel = new User(appConfig.DATA_PATH);
   const refreshTokenModel = new RefreshToken(appConfig.DATA_PATH);
 
@@ -24,9 +26,7 @@ const createApp = () => {
     { jwtSecret: appConfig.JWT_SECRET },
   );
 
-  const logger = {
-    error: console.error,
-  };
+  const logger = consoleLogger(debug);
 
   const authController = new AuthController(authService, logger);
   const authRouter = getAuthRouter(authController);
@@ -36,7 +36,18 @@ const createApp = () => {
   app.use(urlencoded({ extended: true }));
   app.use(json());
 
+  app.use((req, res, next) => {
+    logger.debug(`${req.method} ${req.url}`);
+    next();
+  });
+
   app.use(authRouter);
+
+  /* eslint-disable-next-line */
+  app.use((err, req, res, next) => {
+    logHttpError(err, logger);
+    sendResponseOnHttpError(err, res);
+  });
 
   return app;
 };

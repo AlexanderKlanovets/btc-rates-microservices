@@ -16,11 +16,13 @@ $ git clone https://github.com/AlexanderKlanovets/btc-rates-microservices
 $ cd btc-rates-microservices
 ```
 
-2. Install dependencies for both services:
+2. Install dependencies for both services and error handling worker (RabbitMQ consumer):
 ```bash
 $ cd auth-service
 $ npm i
 $ cd ../btc-rates-service
+$ npm i
+$ cd ../logs-handling-worker
 $ npm i
 ```
 
@@ -31,16 +33,28 @@ $ npm i
 |PORT|An HTTP server port.|3000|
 |JWT_SECRET|A secret to use to verify the JWT, for the auth service only.|very_secret_wow|
 |DATA_PATH|A path to a folder to store users and refresh tokens, for the auth service only.|./data|
-|AUTH_SERVICE_URL|A URL of the auth service, so that a BTC Rates service can use it to communicate via HTTP.|http://localhost:3000|
+|AUTH_SERVICE_URL|A URL of the auth service, so that a BTC Rates service can use it to communicate via HTTP. For the BTC Rates service only.|http://localhost:3000|
+|DEBUG_MODE|Turns on/off debug logs. For both services. 0 - for no logs; 1 - enables debug logs.|1|
+|AMQP_URL|RabbitMQ server URL.|amqp://localhost|
 
-4. Run microservices:
+4. Run RabbitMQ inside Docker:
+```bash
+$ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
+```
+
+5. After the RabbitMQ successful launch, run the microservices (inside each service directory):
 ```bash
 $ npm run start
 ```
 
-5. Run in dev mode (inside each service directory):
+6. *Optional*: run in dev mode with file system watch (inside each service directory):
 ```bash
 $ npm run start:dev
+```
+
+7. Run the error handling worker (inside `logs-handling-worker` directory):
+```bash
+$ AMQP_URL=<your_amqp_url> node main.js
 ```
 
 ## API description

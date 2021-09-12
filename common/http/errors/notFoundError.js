@@ -4,7 +4,7 @@ const HttpError = require('./httpError');
 
 class NotFoundError extends HttpError {
   constructor(message) {
-    super(404, message);
+    super('NotFoundError', 404, message);
   }
 }
 

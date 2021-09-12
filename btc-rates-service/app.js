@@ -6,6 +6,8 @@ const {
   urlencoded,
 } = require('express');
 
+const amqplib = require('amqplib');
+
 const appConfig = require('./lib/config');
 
 const KunaBtcRatesProvider = require('./application/rates-providers/kunaBtcRatesProvider');
@@ -14,21 +16,30 @@ const BtcRatesService = require('./application/services/btcRatesService');
 const BtcRatesController = require('./application/controllers/btcRatesController');
 const getBtcRatesRouter = require('./application/btcRatesRoutes');
 
-const { consoleLogger } = require('../common/loggers');
+const { RabbitMqLogger } = require('../common/loggers');
 
 const {
   logHttpError,
   sendResponseOnHttpError,
 } = require('../common/http/helpers');
 
-const createApp = (debug = false) => {
+const initLogger = async (debug) => {
+  const LOGS_EXCHANGE_NAME = 'logs';
+  const rabbitMqConnection = await amqplib.connect(appConfig.AMPQ_URL);
+  const channel = await rabbitMqConnection.createChannel();
+  await channel.assertExchange(LOGS_EXCHANGE_NAME, 'direct');
+
+  return new RabbitMqLogger(channel, debug);
+};
+
+const createApp = async (debug = false) => {
   const btcRatesProvider = new KunaBtcRatesProvider();
   const accessCheckService = new AccessCheckService(
     appConfig.AUTH_SERVICE_URL,
   );
   const btcRatesService = new BtcRatesService(btcRatesProvider);
 
-  const logger = consoleLogger(debug);
+  const logger = await initLogger(debug);
 
   const btcRatesController = new BtcRatesController(
     accessCheckService,

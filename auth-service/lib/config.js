@@ -17,4 +17,5 @@ module.exports = {
   JWT_SECRET: process.env.JWT_SECRET,
   DATA_PATH: process.env.DATA_PATH,
   DEBUG_MODE: parseDebugModeValue(process.env.DEBUG_MODE),
+  AMPQ_URL: process.env.AMPQ_URL,
 };

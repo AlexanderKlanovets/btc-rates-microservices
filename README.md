@@ -6,6 +6,9 @@ The app consists of 2 microservices:
 - Auth microservice, responsible for user sign on/in and session management using JWT;
 - BTC-UAH rates microservice, responsible for giving a user a current BTC-UAH exchange rate.
 
+Both services have logging on debug, info and error levels. The logs are sent to the RabbitMQ.
+There is also a logs handling worker, which consumes the error logs and sends them to stdout.
+
 The required version of Node.js is 14+.
 
 ## Installation

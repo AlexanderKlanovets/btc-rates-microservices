@@ -7,11 +7,13 @@ class BtcRatesService {
     this.btcRatesProvider = btcRatesProvider;
   }
 
-  getBtcUahExchangeRate() {
+  async getBtcUahExchangeRate() {
     try {
-      return this.btcRatesProvider.getBtcUahExchangeRate();
+      const rate = await this.btcRatesProvider.getBtcUahExchangeRate();
+
+      return rate;
     } catch (err) {
-      throw new RatesRetrievalError();
+      throw new RatesRetrievalError(err.message);
     }
   }
 }

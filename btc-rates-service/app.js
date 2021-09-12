@@ -23,13 +23,15 @@ const {
   sendResponseOnHttpError,
 } = require('../common/http/helpers');
 
+const SERVICE_NAME = 'BTC-UAH rates service';
+
 const initLogger = async (debug) => {
   const LOGS_EXCHANGE_NAME = 'logs';
   const rabbitMqConnection = await amqplib.connect(appConfig.AMPQ_URL);
   const channel = await rabbitMqConnection.createChannel();
   await channel.assertExchange(LOGS_EXCHANGE_NAME, 'direct');
 
-  return new RabbitMqLogger(channel, debug);
+  return new RabbitMqLogger(SERVICE_NAME, channel, debug);
 };
 
 const createApp = async (debug = false) => {

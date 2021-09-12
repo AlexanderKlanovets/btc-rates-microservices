@@ -5,14 +5,16 @@ const { Buffer } = require('buffer');
 const LOGS_EXCHANGE_NAME = 'logs';
 
 class RabbitMqLogger {
-  constructor(channel, isDebugMode) {
+  constructor(serviceName, channel, isDebugMode) {
+    this.serviceName = serviceName;
     this.channel = channel;
     this.isDebugMode = isDebugMode;
   }
 
   log(severity, message) {
     const currentISODate = new Date().toISOString();
-    const formattedMessage = `[${currentISODate}] ${message}`;
+    const errSource = `(from ${this.serviceName})`;
+    const formattedMessage = `[${currentISODate}] ${errSource} ${message}`;
     const messageBuffer = Buffer.from(formattedMessage, 'utf-8');
 
     this.channel.publish(LOGS_EXCHANGE_NAME, severity, messageBuffer);

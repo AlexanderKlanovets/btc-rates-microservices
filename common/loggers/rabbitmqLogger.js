@@ -2,16 +2,35 @@
 
 const { Buffer } = require('buffer');
 
+const amqplib = require('amqplib');
+
 const LOGS_EXCHANGE_NAME = 'logs';
 
 class RabbitMqLogger {
-  constructor(serviceName, channel, isDebugMode) {
+  #isInitialized = false;
+
+  constructor(serviceName, amqpUrl, isDebugMode) {
     this.serviceName = serviceName;
-    this.channel = channel;
+    this.amqpUrl = amqpUrl;
     this.isDebugMode = isDebugMode;
   }
 
+  async init() {
+    const rabbitMqConnection = await amqplib.connect(this.amqpUrl);
+    this.channel = await rabbitMqConnection.createChannel();
+
+    await this.channel.assertExchange(LOGS_EXCHANGE_NAME, 'direct');
+
+    this.#isInitialized = true;
+  }
+
   log(severity, message) {
+    if (!this.#isInitialized) {
+      throw new Error(
+        'Logger was not initialized! Call async method .init() before usage.',
+      );
+    }
+
     const currentISODate = new Date().toISOString();
     const errSource = `(from ${this.serviceName})`;
     const formattedMessage = `[${currentISODate}] ${errSource} ${message}`;
@@ -37,4 +56,13 @@ class RabbitMqLogger {
   }
 }
 
-module.exports = RabbitMqLogger;
+const rabbitMqLoggerAsyncFactory = async (
+  serviceName, amqpUrl, isDebugMode,
+) => {
+  const logger = new RabbitMqLogger(serviceName, amqpUrl, isDebugMode);
+  await logger.init();
+
+  return logger;
+};
+
+module.exports = rabbitMqLoggerAsyncFactory;

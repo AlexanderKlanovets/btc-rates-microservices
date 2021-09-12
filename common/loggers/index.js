@@ -1,9 +1,9 @@
 'use strict';
 
 const consoleLogger = require('./consoleLogger');
-const RabbitMqLogger = require('./rabbitmqLogger');
+const rabbitMqLoggerAsyncFactory = require('./rabbitmqLogger');
 
 module.exports = {
   consoleLogger,
-  RabbitMqLogger,
+  rabbitMqLoggerAsyncFactory,
 };

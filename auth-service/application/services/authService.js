@@ -88,11 +88,19 @@ class AuthService {
   }
 
   async refresh(refreshToken) {
-    const refreshTokenRecord = await this.refreshTokenModel.get(refreshToken);
+    try {
+      const refreshTokenRecord = await this.refreshTokenModel.get(refreshToken);
 
-    await this.refreshTokenModel.delete({ refreshToken });
+      await this.refreshTokenModel.delete({ refreshToken });
 
-    return this.issueTokenPair(refreshTokenRecord.email);
+      return this.issueTokenPair(refreshTokenRecord.email);
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        throw new UserNotFoundError(err.message);
+      }
+
+      throw err;
+    }
   }
 
   async logout(email) {
@@ -103,7 +111,7 @@ class AuthService {
     try {
       verifyJwtTokenFromAuthHeader(authHeader, this.jwtSecret);
     } catch (err) {
-      throw new TokenVerificationError();
+      throw new TokenVerificationError(err.message);
     }
   }
 }

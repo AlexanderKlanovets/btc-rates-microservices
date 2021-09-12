@@ -27,7 +27,7 @@ const SERVICE_NAME = 'BTC-UAH rates service';
 
 const initLogger = async (debug) => {
   const LOGS_EXCHANGE_NAME = 'logs';
-  const rabbitMqConnection = await amqplib.connect(appConfig.AMPQ_URL);
+  const rabbitMqConnection = await amqplib.connect(appConfig.AMQP_URL);
   const channel = await rabbitMqConnection.createChannel();
   await channel.assertExchange(LOGS_EXCHANGE_NAME, 'direct');
 

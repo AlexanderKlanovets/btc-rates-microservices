@@ -16,5 +16,5 @@ module.exports = {
   PORT: process.env.PORT,
   AUTH_SERVICE_URL: process.env.AUTH_SERVICE_URL,
   DEBUG_MODE: parseDebugModeValue(process.env.DEBUG_MODE),
-  AMPQ_URL: process.env.AMPQ_URL,
+  AMQP_URL: process.env.AMQP_URL,
 };
